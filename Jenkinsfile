@@ -20,6 +20,9 @@ pipeline {
       }
     }
     stage ('Sonarqube Analysis') {
+      when {
+        branch 'develop'
+      }
       steps {
         script {
           withSonarQubeEnv('Test_Sonar') {
@@ -29,6 +32,9 @@ pipeline {
       }
     }
     stage ('Test case execution') {
+      when {
+        branch 'master'
+      }
       steps {
           sh 'npm test'
       }

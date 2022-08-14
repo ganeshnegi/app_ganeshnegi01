@@ -4,6 +4,7 @@
 
 # docker
 Dockerfile
+.dockerignore
 
 # Dependency
 node_modules/
@@ -17,3 +18,5 @@ coverage/
 deployments/
 Jenkinsfile
 sonar-project.properties
+
+.DS_Store

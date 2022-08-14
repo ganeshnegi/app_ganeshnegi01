@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubernetes-cluster-ganeshnegi01
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nagp-devops-config
+  namespace: kubernetes-cluster-ganeshnegi01
+data:
+  STAGE: develop
+  APP_LANG: nodejs
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nagp-devops-secret
+  namespace: kubernetes-cluster-ganeshnegi01
+data:
+  SECRET_USERNAME: Z2FuZXNobmVnaS1kZXZlbG9wCg==
+  SECRET_PASSWORD: dGVtcC1wd2QK
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nagp-devops-service
+  namespace: kubernetes-cluster-ganeshnegi01
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3001
+      targetPort: 7100
+  selector:
+    app: nagp_devops
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nagp-devops
+  namespace: kubernetes-cluster-ganeshnegi01
+  labels:
+    app: nagp_devops
+spec:
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: nagp_devops
+    spec:
+      containers:
+        - name: app-ganeshnegi01
+          image: ganeshnegi/i-ganeshnegi01-develop:latest
+          ports:
+            - containerPort: 7100
+          envFrom:
+          - configMapRef:
+              name: nagp-devops-config
+          - secretRef:
+              name: nagp-devops-secret
+  selector:
+    matchLabels:
+      app: nagp_devops

@@ -1,0 +1,19 @@
+# git
+.git/
+.gitignore/
+
+# docker
+Dockerfile
+
+# Dependency
+node_modules/
+
+# tests and code coverage
+coverage/
+.nyc_output/
+.scannerwork/
+
+# files not required to run the app in container
+deployments/
+Jenkinsfile
+sonar-project.properties

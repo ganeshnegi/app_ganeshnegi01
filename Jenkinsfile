@@ -1,7 +1,6 @@
 pipeline {
   agent any
   environment {
-    dockerRegistry = "ganeshnegi/i-ganeshnegi01-${BRANCH_NAME}"
     scannerHome = tool 'SonarQubeScanner'
   }
   tools {
@@ -37,26 +36,6 @@ pipeline {
       }
       steps {
           sh 'npm test'
-      }
-    }
-    stage ('Docker Build & Push') {
-      steps {
-        script {
-          withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
-            // Build the docker image with tag 'BUILD_NUMBER'
-            sh "docker build -t ${dockerRegistry}:${BUILD_NUMBER} --no-cache ."
-            // Create a new tag 'latest' for the image
-            sh "docker tag ${dockerRegistry}:${BUILD_NUMBER} ${dockerRegistry}:latest"
-
-            // Push images to dockerhub
-            sh "docker push ${dockerRegistry}:${BUILD_NUMBER}"
-            sh "docker push ${dockerRegistry}:latest"
-
-            // Delete the images from the workspace
-            sh "docker rmi ${dockerRegistry}:${BUILD_NUMBER}"
-            sh "docker rmi ${dockerRegistry}:latest"
-          }
-        }
       }
     }
     stage ('Kubernetes Deployment') {

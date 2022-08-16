@@ -39,29 +39,29 @@ pipeline {
           sh 'npm test'
       }
     }
-    stage ('Kubernetes Deployment') {
+    stage ('Docker Build & Push') {
       steps {
         script {
-          // Step 1: deploy the image to docker hub
           withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
-              // Build the docker image with tag 'BUILD_NUMBER'
-              sh "docker build -t ${dockerRegistry}:${BUILD_NUMBER} --no-cache ."
+            // Build the docker image with tag 'BUILD_NUMBER'
+            sh "docker build -t ${dockerRegistry}:${BUILD_NUMBER} --no-cache ."
+            // Create a new tag 'latest' for the image
+            sh "docker tag ${dockerRegistry}:${BUILD_NUMBER} ${dockerRegistry}:latest"
 
-              // Create a new tag 'latest' for the image
-              sh "docker tag ${dockerRegistry}:${BUILD_NUMBER} ${dockerRegistry}:latest"
+            // Push images to dockerhub
+            sh "docker push ${dockerRegistry}:${BUILD_NUMBER}"
+            sh "docker push ${dockerRegistry}:latest"
 
-              // Push images to dockerhub
-              sh "docker push ${dockerRegistry}:${BUILD_NUMBER}"
-              sh "docker push ${dockerRegistry}:latest"
-            
-              // Delete the images from the workspace 
-              sh "docker rmi ${dockerRegistry}:${BUILD_NUMBER}"
-              sh "docker rmi ${dockerRegistry}:latest"
-            }
-
-            // Step 2: deploy to kubernates cluster in gcloud
-            sh "/Users/nagarro/google-cloud-sdk/bin/kubectl apply -f deployments/${BRANCH_NAME}.yaml"
+            // Delete the images from the workspace
+            sh "docker rmi ${dockerRegistry}:${BUILD_NUMBER}"
+            sh "docker rmi ${dockerRegistry}:latest"
+          }
         }
+      }
+    }
+    stage ('Kubernetes Deployment') {
+      steps {
+        sh "kubectl apply -f deployments/${BRANCH_NAME}.yaml"
       }
     }
   }

@@ -4,6 +4,7 @@
 
 # docker
 Dockerfile
+.dockerignore
 
 # Dependency
 node_modules/

@@ -4,7 +4,6 @@ pipeline {
     scannerHome = tool 'SonarQubeScanner'
   }
   tools {
-    dockerTool 'docker'
     nodejs 'nodejs'
   }
   options {

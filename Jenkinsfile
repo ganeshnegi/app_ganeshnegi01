@@ -12,7 +12,7 @@ pipeline {
     buildDiscarder(logRotator(daysToKeepStr: '5', numToKeepStr: '10'))
   }
   stages {
-    stage ('build') {
+    stage ('Build') {
       steps {
         sh "npm install"
       }
@@ -39,7 +39,7 @@ pipeline {
     }
     stage ('Kubernetes Deployment') {
       steps {
-        sh "kubectl apply -f deployments/${BRANCH_NAME}.yaml"
+        sh "kubectl apply -f K8s-deployment/${BRANCH_NAME}.yaml"
       }
     }
   }

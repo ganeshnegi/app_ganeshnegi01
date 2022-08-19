@@ -17,6 +17,6 @@ coverage/
 .DS_Store
 
 # files not required to run the app in container
-deployments/
+K8s-deployment/
 Jenkinsfile
 sonar-project.properties

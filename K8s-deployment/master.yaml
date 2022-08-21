@@ -6,7 +6,7 @@ metadata:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nagp-devops-config
+  name: nagp-devops-config-master
   namespace: kubernetes-cluster-ganeshnegi01
 data:
   STAGE: master
@@ -15,7 +15,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: nagp-devops-secret
+  name: nagp-devops-secret-master
   namespace: kubernetes-cluster-ganeshnegi01
 data:
   SECRET_USERNAME: Z2FuZXNobmVnaQo=
@@ -24,29 +24,29 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nagp-devops-service
+  name: nagp-devops-service-master
   namespace: kubernetes-cluster-ganeshnegi01
 spec:
   type: LoadBalancer
   ports:
-    - port: 3001
+    - port: 3002
       targetPort: 7100
   selector:
-    app: nagp_devops
+    app: nagp_devops-master
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nagp-devops
+  name: nagp-devops-master
   namespace: kubernetes-cluster-ganeshnegi01
   labels:
-    app: nagp_devops
+    app: nagp_devops-master
 spec:
   replicas: 4
   template:
     metadata:
       labels:
-        app: nagp_devops
+        app: nagp_devops-master
     spec:
       containers:
         - name: app-ganeshnegi01
@@ -55,9 +55,9 @@ spec:
             - containerPort: 7100
           envFrom:
           - configMapRef:
-              name: nagp-devops-config
+              name: nagp-devops-config-master
           - secretRef:
-              name: nagp-devops-secret
+              name: nagp-devops-secret-master
   selector:
     matchLabels:
-      app: nagp_devops
+      app: nagp_devops-master

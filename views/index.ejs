@@ -7,6 +7,49 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <br>
+
+    <% if(config && Object.keys(config).length > 0){ %>
+      <h2> ConfigMap from deployment </h2>
+      <table class='deployment-data'>
+        <thead>
+          <tr>
+            <th> Key </th>
+            <th> Value </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const [key, val] of Object.entries(config)) { %>
+            <tr>
+              <td><%= key %></td>
+              <td><%= val %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    <% } %>
+    <br>
+
+
+    <% if(secrets && Object.keys(secrets).length > 0){ %>
+      <h2> Secrets from deployment </h2>
+      <table class='deployment-data'>
+        <thead>
+          <tr>
+            <th> Key </th>
+            <th> Value </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const [key, val] of Object.entries(secrets)) { %>
+            <tr>
+              <td><%= key %></td>
+              <td><%= val %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    <% } %>
   </body>
   <script>
     console.table(<%- JSON.stringify(env) %>)

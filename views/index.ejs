@@ -7,6 +7,53 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <br>
+
+    <% if(env.STAGE || env.APP_LANG){ %>
+      <h2> ConfigMap from deployment </h2>
+      <table class='deployment-data'>
+        <thead>
+          <tr>
+            <th> Key </th>
+            <th> Value </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const [key, val] of Object.entries(env)) { %>
+            <% if(key == 'STAGE' || key == 'APP_LANG') { %>
+              <tr>
+                <td><%= key %></td>
+                <td><%= val %></td>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+    <% } %>
+    <br>
+
+
+    <% if(env.SECRET_USERNAME || env.SECRET_PASSWORD){ %>
+      <h2> Secrets from deployment </h2>
+      <table class='deployment-data'>
+        <thead>
+          <tr>
+            <th> Key </th>
+            <th> Value </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const [key, val] of Object.entries(env)) { %>
+            <% if(key == 'SECRET_USERNAME' || key == 'SECRET_PASSWORD') { %>
+              <tr>
+                <td><%= key %></td>
+                <td><%= val %></td>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+    <% } %>
   </body>
   <script>
     console.table(<%- JSON.stringify(env) %>)

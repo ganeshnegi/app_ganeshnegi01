@@ -33,7 +33,7 @@
     <br>
 
 
-    <% if(env.SECRET_USERNAME || env.SECRET_PASSWORD){ %>
+    <% if(env.DB_USERNAME || env.DB_PASSWORD){ %>
       <h2> Secrets from deployment </h2>
       <table class='deployment-data'>
         <thead>
@@ -44,7 +44,7 @@
         </thead>
         <tbody>
           <% for (const [key, val] of Object.entries(env)) { %>
-            <% if(key == 'SECRET_USERNAME' || key == 'SECRET_PASSWORD') { %>
+            <% if(key == 'DB_USERNAME' || key == 'DB_PASSWORD') { %>
               <tr>
                 <td><%= key %></td>
                 <td><%= val %></td>

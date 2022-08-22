@@ -18,8 +18,8 @@ metadata:
   name: nagp-devops-secret-develop
   namespace: kubernetes-cluster-ganeshnegi01
 data:
-  SECRET_USERNAME: Z2FuZXNobmVnaS1kZXZlbG9wCg==
-  SECRET_PASSWORD: dGVtcC1wd2QK
+  DB_USERNAME: Z2FuZXNobmVnaS1kZXZlbG9wCg==
+  DB_PASSWORD: dGVtcC1wd2QK
 ---
 apiVersion: v1
 kind: Service
